@@ -41,10 +41,15 @@ package org.glassfish.jersey.examples.helloworld.webapp;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import static javax.ws.rs.HttpMethod.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import static org.glassfish.jersey.server.model.Parameter.Source.URI;
+import org.glassfish.jersey.server.spi.Container;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -59,22 +64,40 @@ public class HelloWorldResource {
         return "Hello World!";
     }
     
-    @Path("/hello2")
-    @GET
-    @Produces("text/plain")
-    public String getHello2() {
-        return "Hello World 2 !";
-    }
+//    @Path("/hello2")
+//    @PUT
+//    @Produces("text/plain")
+//    
+//public Response putContainer() {
+//    System.out.println("PUT CONTAINER " );
+// 
+//    URI uri = uriInfo.getAbsolutePath();
+//    Container c = new Container(container, uri.toString());
+// 
+//    Response r;
+//    if (!MemoryStore.MS.hasContainer(c)) {
+//        r = Response.created(uri).build();
+//    } else {
+//        r = Response.noContent().build();
+//    }
+// 
+//    MemoryStore.MS.createContainer(c);
+//    return r;
+//}
     
-    @Path("/sendReceiveJson")
+    @Path("/sendReceiveJson-{name}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     
-    public String sendReceiveJson(String name)
+    public String sendReceiveJson(@PathParam("name") String name)
     {
-        System.out.println("Value in name: " + name);
-        return "{\"json Key\": \"json value\"}";
+        JSONObject json=new JSONObject();
+        json.put("key1", "Mohamed1");
+        json.put("key2", "Mohamed2");
+        json.get("key1");
+        System.out.println("Value in name: " + json.get("key2"));
+        return "{\"json Key\": \"json value\"}"+json.get("key2");
     
     }
     public String Nom="Moussi";
